@@ -1,0 +1,22 @@
+{"properties": [
+  {
+    "name": "security.jwt.secret-key",
+    "type": "java.lang.String",
+    "description": "A description for 'security.jwt.secret-key'"
+  },
+  {
+    "name": "security.jwt.expiration-time",
+    "type": "java.lang.String",
+    "description": "A description for 'security.jwt.expiration-time'"
+  },
+  {
+    "name": "org.springframework.security",
+    "type": "java.lang.String",
+    "description": "A description for 'org.springframework.security'"
+  },
+  {
+    "name": "security.jwt.cookie-name",
+    "type": "java.lang.String",
+    "description": "A description for 'security.jwt.cookie-name'"
+  }
+]}

@@ -1,14 +1,15 @@
 package br.com.sizer.controller;
 
 import br.com.sizer.utill.CompanySpecificationsBuilder;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponses;
-import io.swagger.annotations.ApiResponse;
-
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import br.com.sizer.model.Company;
 import br.com.sizer.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,30 +27,29 @@ public class CompanyController {
     CompanyService companyService;
 
     // -------------------create company -------------------
-    @ApiOperation(value = "Criar Empresa")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Retorna a empresa criada"),
-        @ApiResponse(code = 403, message = "Você não tem permissão para criar uma empresa"),
-        @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
-    })
+    @Operation(summary = "Criar Empresa")
+    @ApiResponse(responseCode = "200", description = "Retorna a empresa criada", content = @Content)
+    @ApiResponse(responseCode = "403", description = "Você não tem permissão para criar uma empresa")
+    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+
     @PostMapping("/company")
-    ResponseEntity<?> createCompany(@RequestBody Company request) {
-        Company response = companyService.createCompany(request);
+    ResponseEntity<?> create(@RequestBody Company request) {
+        Company response = companyService.create(request);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
     // -------read the company in json format with pagination----------
-    @ApiOperation(value = "List Companies")
-    @ApiResponses(value = {
-        @ApiResponse(code = 200, message = "Listar Empresas"),
-        @ApiResponse(code = 403, message = "Você não tem permissão para acessar este recurso"),
-        @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
-    })
-    
+    @Operation(summary = "List Companies")
+    @ApiResponse(responseCode = "200", description = "Listar Empresas")
+    @ApiResponse(responseCode = "403", description = "Você não tem permissão para acessar este recurso")
+    @ApiResponse(responseCode = "500", description = "Foi gerada uma exceção")
+
     @RequestMapping(value = "/companies", method = RequestMethod.GET, produces = { "application/json" })
     ResponseEntity<?> getAllCompany(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "5") int limit) {
-        Page<Company> response = companyService.getAllCompany(page, limit);
+        // Create a Pageable instance
+        Pageable pageable = PageRequest.of(page, limit);
+        Page<Company> response = companyService.findAll(pageable);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
@@ -58,14 +58,14 @@ public class CompanyController {
             "application/json" })
     public ResponseEntity<?> updateCompany(@PathVariable(value = "id") Long companyId,
             @RequestBody Company companyDetails) {
-        Company response = companyService.updateCompany(companyId, companyDetails);
+        Company response = companyService.update(companyId, companyDetails);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 
     // ---------------------delete the company ---------------------
     @DeleteMapping("/company/{id}")
     public ResponseEntity<?> deleteCompany(@PathVariable(value = "id") Long companyId) {
-        companyService.deleteCompany(companyId);
+        companyService.delete(companyId);
         return ResponseEntity.ok().build();
     }
 
@@ -79,7 +79,7 @@ public class CompanyController {
             builder.with(matcher.group(1), matcher.group(2), matcher.group(3));
         }
         Specification<Company> spec = builder.build();
-        List<Company> response = companyService.searchCompany(spec);
+        List<Company> response = companyService.findAll(spec);
         return new ResponseEntity<Object>(response, HttpStatus.OK);
     }
 }

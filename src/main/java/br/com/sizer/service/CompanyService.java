@@ -1,19 +1,25 @@
 package br.com.sizer.service;
 
 import br.com.sizer.model.Company;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
 public interface CompanyService {
-    Company createCompany(Company company);
 
-    Page<Company> getAllCompany(int page, int limit);
+    public Company findOne(Long id);
 
-    Company updateCompany(Long id, Company companyDetails);
+    public List<Company> findAll(Specification<Company> spec);
 
-    void deleteCompany(Long id);
+    public Page<Company> findAll(Pageable pageable);
 
-    List<Company> searchCompany(Specification<Company> spec);
+    public Company create(Company company);
+
+    public Company update(Long id, Company companyDetails);
+
+    public void delete(Long id);
+
 }

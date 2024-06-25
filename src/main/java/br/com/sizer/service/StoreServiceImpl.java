@@ -3,9 +3,10 @@ package br.com.sizer.service;
 import br.com.sizer.exception.ResourceNotFoundException;
 import br.com.sizer.model.Store;
 import br.com.sizer.repository.StoreRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -18,21 +19,31 @@ public class StoreServiceImpl implements StoreService {
     StoreRepository storeRepository;
 
     @Override
-    public Store createStore(Store store) {
+    public Store create(Store store) {
         return storeRepository.save(store);
     }
 
     @Override
-    public Page<Store> getAllStore(int page, int limit) {
-        Page<Store> resultPage = storeRepository.findAll(new PageRequest(page, limit));
-        if (page > resultPage.getTotalPages())
+    public Store findOne(Long id) {
+        return storeRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+    }
+
+    @Override
+    public Page<Store> findAll(Pageable pageable) {
+        Page<Store> resultPage = storeRepository.findAll(pageable);
+        if (pageable.getPageNumber() > resultPage.getTotalPages())
             throw new ResourceNotFoundException("Store", "id", resultPage);
         return resultPage;
     }
 
     @Override
-    public Store updateStore(Long id, Store storeDetails) {
-        Store store = storeRepository.findById(id);
+    public List<Store> findAll(Specification<Store> spec) {
+        return storeRepository.findAll(spec);
+    }
+
+    @Override
+    public Store update(Long id, Store storeDetails) {
+        Store store = storeRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         if (store == null)
             throw new ResourceNotFoundException("Store", "id", id);
 
@@ -45,16 +56,12 @@ public class StoreServiceImpl implements StoreService {
     }
 
     @Override
-    public void deleteStore(Long id) {
-        Store store = storeRepository.findById(id);
+    public void delete(Long id) {
+        Store store = storeRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         if (store == null)
             throw new ResourceNotFoundException("Store", "id", id);
 
         storeRepository.delete(store);
     }
 
-    @Override
-    public List<Store> searchStore(Specification<Store> spec) {
-        return storeRepository.findAll(spec);
-    }
 }

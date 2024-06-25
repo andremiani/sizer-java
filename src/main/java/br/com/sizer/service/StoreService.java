@@ -1,19 +1,25 @@
 package br.com.sizer.service;
 
 import br.com.sizer.model.Store;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 
 public interface StoreService {
-    Store createStore(Store store);
 
-    Page<Store> getAllStore(int page, int limit);
+    public Store findOne(Long id);
 
-    Store updateStore(Long id, Store storeDetails);
+    public Page<Store> findAll(Pageable pageable);
 
-    void deleteStore(Long id);
+    public List<Store> findAll(Specification<Store> spec);
 
-    List<Store> searchStore(Specification<Store> spec);
+    public Store create(Store company);
+
+    public Store update(Long id, Store companyDetails);
+
+    public void delete(Long id);
+
 }

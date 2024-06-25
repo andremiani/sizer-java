@@ -3,7 +3,6 @@ package br.com.sizer.utill;
 import br.com.sizer.dto.SearchCriteria;
 import br.com.sizer.model.Company;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ public class CompanySpecificationsBuilder {
 
         Specification<Company> result = specs.get(0);
         for (int i = 1; i < specs.size(); i++) {
-            result = Specifications.where(result).and(specs.get(i));
+            result = Specification.where(result).and(specs.get(i));
         }
         return result;
     }
