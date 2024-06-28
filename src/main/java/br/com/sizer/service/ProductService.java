@@ -1,5 +1,6 @@
 package br.com.sizer.service;
 
+import br.com.sizer.dto.ProductDto;
 import br.com.sizer.model.Product;
 
 import org.springframework.data.domain.Page;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public interface ProductService {
 
-    public List<Product> findByCategory(String category);
+    public List<Product> findByCategory(List<String> categories, Pageable pageable);
 
     public Product findOne(Long id);
 
@@ -19,9 +20,12 @@ public interface ProductService {
 
     public Page<Product> findAll(Pageable pageable);
 
-    public Page<Product> recommendProducts(Map<String, Double> userMeasurements, String category_id, Pageable pageable);
+    public Page<ProductDto> getRecommendedProducts(Map<String, Double> userMeasurements, Double tolerance,
+            List<String> categories,
+            Pageable pageable);
 
-    public Product create(Product company);
+    public Product create(String storeId, String productId, String skuId, String categoryId, String name,
+            Map<String, Double> dimensions);
 
     public Product update(Long id, Product companyDetails);
 

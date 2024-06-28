@@ -5,6 +5,7 @@ import java.util.Map;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -14,6 +15,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @AllArgsConstructor
 
 public class Product {
@@ -25,12 +27,12 @@ public class Product {
 	private String name;
 
 	@Column(name = "product_id", length = 7)
-	private int productId;
+	private String productId;
 
 	@Column(name = "sku_id", length = 7)
-	private int skuId;
+	private String skuId;
 
-	@Column(name = "category_id")
+	@Column(name = "category_id", length = 7)
 	private String category;
 
 	@ElementCollection
@@ -39,9 +41,10 @@ public class Product {
 	@Column(name = "dimension_value")
 	private Map<String, Double> dimensions;
 
-	@ManyToOne
-	@JoinColumn(name = "store_id", nullable = false)
+	// @ManyToOne
+	// @JoinColumn(name = "store_id", nullable = false)
 
-	private Store store;
+	@Column(name = "store_id")
+	private String store;
 
 }
