@@ -122,5 +122,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+        <finalName>docker-sizer</finalName>
     </build>
 </project>

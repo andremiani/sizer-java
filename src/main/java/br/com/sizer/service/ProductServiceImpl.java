@@ -13,7 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -139,37 +138,41 @@ public class ProductServiceImpl implements ProductService {
         return Math.sqrt(sumOfSquares);
     }
 
-    private double calculateTolerance(Map<String, Double> productDimensions, Double tolerance) {
-        double sumOfSquares = productDimensions.values().stream().mapToDouble(value -> Math.pow(value, 2)).sum();
-        return Math.sqrt(sumOfSquares) * tolerance;
-    }
+    // private double calculateTolerance(Map<String, Double> productDimensions,
+    // Double tolerance) {
+    // double sumOfSquares = productDimensions.values().stream().mapToDouble(value
+    // -> Math.pow(value, 2)).sum();
+    // return Math.sqrt(sumOfSquares) * tolerance;
+    // }
 
-    // Método para normalizar as medidas do usuário em relação às dimensões do
-    // produto
-    private static Map<String, Double> normalizeMeasurements(Map<String, Double> productDimensions,
-            Map<String, Double> measurements) {
-        Map<String, Double> normalizedMeasurements = new HashMap<>();
+    // // Método para normalizar as medidas do usuário em relação às dimensões do
+    // // produto
+    // private static Map<String, Double> normalizeMeasurements(Map<String, Double>
+    // productDimensions,
+    // Map<String, Double> measurements) {
+    // Map<String, Double> normalizedMeasurements = new HashMap<>();
 
-        // Iterar sobre as dimensões do produto
-        for (Map.Entry<String, Double> entry : productDimensions.entrySet()) {
-            String dimension = entry.getKey();
-            double dimensionValue = entry.getValue();
+    // // Iterar sobre as dimensões do produto
+    // for (Map.Entry<String, Double> entry : productDimensions.entrySet()) {
+    // String dimension = entry.getKey();
+    // double dimensionValue = entry.getValue();
 
-            // Verificar se a medida do usuário está presente e normalizá-la
-            if (measurements.containsKey(dimension)) {
-                double measurementValue = measurements.get(dimension);
+    // // Verificar se a medida do usuário está presente e normalizá-la
+    // if (measurements.containsKey(dimension)) {
+    // double measurementValue = measurements.get(dimension);
 
-                // Normalização simples: ajustar conforme necessário
-                double normalizedValue = (measurementValue - dimensionValue) / dimensionValue;
-                System.out.println("normalizedValue" + normalizedValue);
+    // // Normalização simples: ajustar conforme necessário
+    // double normalizedValue = (measurementValue - dimensionValue) /
+    // dimensionValue;
+    // System.out.println("normalizedValue" + normalizedValue);
 
-                // Adicionar ao mapa de medidas normalizadas
-                normalizedMeasurements.put(dimension, normalizedValue);
-            }
-        }
+    // // Adicionar ao mapa de medidas normalizadas
+    // normalizedMeasurements.put(dimension, normalizedValue);
+    // }
+    // }
 
-        return normalizedMeasurements;
-    }
+    // return normalizedMeasurements;
+    // }
 
     private boolean areDimensionsValid(Map<String, Double> productDimensions, Map<String, Double> userMeasurements,
             double tolerance) {
