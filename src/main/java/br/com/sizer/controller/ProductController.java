@@ -61,7 +61,7 @@ public class ProductController {
     }
 
     // -------read the company in json format with pagination----------
-    @RequestMapping(value = "/products", method = RequestMethod.GET, produces = { "application/json" })
+    @GetMapping(value = "/products", produces = { "application/json" })
     ResponseEntity<?> findAll(@RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "limit", defaultValue = "5") int limit) {
         PageRequest pageable = PageRequest.of(page, limit);
@@ -70,7 +70,7 @@ public class ProductController {
     }
 
     // --------------------update the product --------------------
-    @RequestMapping(value = "/product/{id}", method = RequestMethod.PUT, consumes = { "application/json" }, produces = {
+    @PutMapping(value = "/product/{id}", consumes = { "application/json" }, produces = {
             "application/json" })
     public ResponseEntity<?> update(@PathVariable(value = "id") Long productId,
             @RequestBody Product productDetails) {
@@ -86,7 +86,7 @@ public class ProductController {
     }
 
     // ------------------------search product ------------------------
-    @RequestMapping(method = RequestMethod.GET, value = "/product")
+    @GetMapping("/product")
     public ResponseEntity<?> findAll(@RequestParam(value = "search") String search) {
         ProductSpecificationsBuilder builder = new ProductSpecificationsBuilder();
         Pattern pattern = Pattern.compile("(\\w+?)(:|<|>)(\\w+?),");
