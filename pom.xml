@@ -7,7 +7,7 @@
     <groupId>br.com.sizer</groupId>
     <artifactId>sizer</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>Sizer App</name>
     <description>Recomendador de Roupas</description>
